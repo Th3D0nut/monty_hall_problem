@@ -2,14 +2,13 @@ import random
 
 class Game():
     def __init__(self):
-        self.doors = [False, False, False]
-        self.index_prize = self.generate_prize()
+        self.doors = self.generate_doors()
         self.player_choice = self.doors.pop(random.randint(0, 2))
 
-    def generate_prize(self):
-        index_prize = random.randint(0,2)
-        self.doors[index_prize] = True
-        return index_prize
+    def generate_doors(self):
+        doors = [False, False, False]
+        doors[random.randint(0,2)] = True
+        return doors
 
     def reveal_door(self):
         self.doors.remove(False)
@@ -41,8 +40,11 @@ def repeat_play(amount):
         i += 1
     win_percentage_switching = calculate_percentage(amount, wins_switching)
     win_percentage_not_switching = calculate_percentage(amount, wins_not_switching)
-    return win_percentage_switching, win_percentage_not_switching
+    return (
+        f"Switching doors: {win_percentage_switching}% chance of winning.\n"
+        f"Not switching:   {win_percentage_not_switching}% chance of winning."
+    )
 
 if __name__ == "__main__":
-    print(repeat_play(10000000))
+    print(repeat_play(int(input("Amount of simulations: "))))
 
